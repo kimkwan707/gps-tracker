@@ -97,7 +97,9 @@
     <div id="trackList"></div>
   </div>
 
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=fe8acb56ad6fc3f5dfd0c0b878553acd"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=fe8acb56ad6fc3f5dfd0c0b878553acd&autoload=false"
+	  onerror="alert('카카오 SDK 로드 실패! 401 에러가 발생했습니다. 카카오 콘솔에서 도메인 설정을 확인하세요.')">
+  </script>
   <script>
     let map, marker, polyline;
     let watchId = null;
@@ -252,13 +254,17 @@
     stopBtn.onclick = stopTracking;
     intervalSelect.onchange = changeInterval;
 
-	if (window.kakao && kakao.maps) {
-		initMap();
-		startLiveTracking();
-		renderTrackList();
-	} else {
-		alert('Kakao SDK 로드 실패 (InfinityFree 제한)');
-	}
+	<script>
+	  window.onload = function() {
+		if (typeof kakao !== 'undefined' && kakao.maps) {
+			kakao.maps.load(() => {
+				initMap();
+				startLiveTracking();
+				renderTrackList();
+			});
+		}
+	  };
+	</script>
 
   </script>
 </body>
